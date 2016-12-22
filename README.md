@@ -17,9 +17,10 @@ failures.
 To solve this problem, we created the present library. Historical resource
 usage is analyzed, and a *first allocation* for a task is generated. Such the
 task use more resources than this first allocation, the task is re-run using a
-given maximum. In an accompanying paper, we show that such retry strategy leads
-to an increase in throughput from 10% to 400% across data we have available on
-different workflows.
+given maximum. [In the accompanying paper (under
+review)](http://ccl.cse.nd.edu/research/papers/tovar-allocations-2016.pdf), we
+show that such retry strategy leads to an increase in throughput from 10% to
+400% across data we have available on different workflows.
 
 ## Code Example
 
@@ -59,9 +60,7 @@ suite.
 ### Installation from binaries
 
 To install a binary version, download the appropriate binary for the latest
-official release of CCTools:
-
-[Download CCTools](http://ccl.cse.nd.edu/software/downloadfiles.php "CCTools")
+official release of CCTools: [Download CCTools](http://ccl.cse.nd.edu/software/downloadfiles.php "CCTools")
 
 For example, for RHEL 6 on a x86-64:
 
@@ -69,7 +68,7 @@ For example, for RHEL 6 on a x86-64:
 # change the following path to your taste:
 CCTOOLS_HOME=$HOME/cctools
 mkdir ${CCTOOLS_HOME}
-tar zxpv --strip-components 1 -C ${CCTOOLS_HOME} -f cctools-6.0.13-x86_64-redhat6.tar.gz
+tar zxpv --strip-components 1 -C ${CCTOOLS_HOME} -f cctools-6.0.14-x86_64-redhat6.tar.gz
 export PYTHONPATH=${CCTOOLS_HOME}/lib/python2.6/site-packages
 
 ```
