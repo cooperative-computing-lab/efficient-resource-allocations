@@ -23,7 +23,7 @@ different workflows.
 
 ## Code Example
 
-```
+```python
 from ResourceMonitor import Categories
 
 # Create an empty set of categories. A category is a set of tasks qualitatively
@@ -52,10 +52,31 @@ for name in categories.category_names():
 
 ## Installation
 
+Currently, this repository only contains examples of the python bindings from
+our C implementation. The C implementation is part of our CCTools library
+suite.
 
-## API Reference
+### Binary installation
 
-## Tests
+To install a binary version
+
+Download the appropiate
+
+### Installation from source
+
+Make sure you have swig and the development files for python installed. For
+example: `apt-get install build-essentials swig python2.7-dev`
+
+## Running the examples
+
+```sh
+git clone https://github.com/cooperative-computing-lab/efficient-resource-allocations.git
+cd efficient-resource-allocations
+# computing allocations from real workflow data:
+./allocations_from_data data/bioblast.csv
+# synthetic examples using beta, exponential, and triangular distributions:
+./synthetic_examples
+```
 
 ## License
 
