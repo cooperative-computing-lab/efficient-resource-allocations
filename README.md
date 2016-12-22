@@ -65,7 +65,7 @@ official release of CCTools:
 
 For example, for RHEL 6 on a x86-64:
 
-```
+```sh
 # change the following path to your taste:
 CCTOOLS_HOME=$HOME/cctools
 mkdir ${CCTOOLS_HOME}
@@ -79,14 +79,14 @@ export PYTHONPATH=${CCTOOLS_HOME}/lib/python2.6/site-packages
 Make sure you have swig and the development files for python installed. For
 example:
 
-```
+```sh
 apt-get install build-essentials swig python2.7-dev
 ```
 
 Download the source for the latest official release of CCTools:
 [Download CCTools](http://ccl.cse.nd.edu/software/downloadfiles.php "CCTools")
 
-```
+```sh
 # change the following path to your taste:
 CCTOOLS_HOME=$HOME/cctools
 tar zxpvf cctools-X.X.X-source.tar.gz
