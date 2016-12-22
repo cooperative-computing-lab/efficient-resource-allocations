@@ -56,16 +56,45 @@ Currently, this repository only contains examples of the python bindings from
 our C implementation. The C implementation is part of our CCTools library
 suite.
 
-### Binary installation
+### Installation from binaries
 
-To install a binary version
+To install a binary version, download the appropriate binary for the latest
+official release of CCTools:
 
-Download the appropiate
+[Download CCTools](http://ccl.cse.nd.edu/software/downloadfiles.php "CCTools")
+
+For example, for RHEL 6 on a x86-64:
+
+```
+# change the following path to your taste:
+CCTOOLS_HOME=$HOME/cctools
+mkdir ${CCTOOLS_HOME}
+tar zxpv --strip-components 1 -C ${CCTOOLS_HOME} -f cctools-6.0.13-x86_64-redhat6.tar.gz
+export PYTHONPATH=${CCTOOLS_HOME}/lib/python2.6/site-packages
+
+```
 
 ### Installation from source
 
 Make sure you have swig and the development files for python installed. For
-example: `apt-get install build-essentials swig python2.7-dev`
+example:
+
+```
+apt-get install build-essentials swig python2.7-dev
+```
+
+Download the source for the latest official release of CCTools:
+[Download CCTools](http://ccl.cse.nd.edu/software/downloadfiles.php "CCTools")
+
+```
+# change the following path to your taste:
+CCTOOLS_HOME=$HOME/cctools
+tar zxpvf cctools-X.X.X-source.tar.gz
+cd cctools-X.X.X-source.tar.gz
+./configure --prefix=${CCTOOLS_HOME}
+make install
+export PYTHONPATH=${CCTOOLS_HOME}/lib/python2.7/site-packages
+```
 
 ## Running the examples
 
