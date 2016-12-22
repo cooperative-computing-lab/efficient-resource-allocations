@@ -69,7 +69,7 @@ For example, for RHEL 6 on a x86-64:
 CCTOOLS_HOME=$HOME/cctools
 mkdir ${CCTOOLS_HOME}
 tar zxpv --strip-components 1 -C ${CCTOOLS_HOME} -f cctools-6.0.14-x86_64-redhat6.tar.gz
-export PYTHONPATH=${CCTOOLS_HOME}/lib/python2.6/site-packages
+export PYTHONPATH=${CCTOOLS_HOME}/lib/python2.6/site-packages:${PYTHONPATH}
 
 ```
 
@@ -92,7 +92,7 @@ tar zxpvf cctools-X.X.X-source.tar.gz
 cd cctools-X.X.X-source.tar.gz
 ./configure --prefix=${CCTOOLS_HOME}
 make install
-export PYTHONPATH=${CCTOOLS_HOME}/lib/python2.7/site-packages
+export PYTHONPATH=${CCTOOLS_HOME}/lib/python2.7/site-packages:${PYTHONPATH}
 ```
 
 ## Running the examples
