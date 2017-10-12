@@ -24,36 +24,38 @@ if __name__ == '__main__':
     # set seed so that we can compare runs.
     random.seed(42)
 
-    # wall time in seconds
+    # wall time in seconds. For this examples, all jobs execute exactly with
+    # the same duration. (Any positive value here would do. Units should only
+    # be consistent across data points.)
     wall_time   = 1
 
-    # min memory, in MB
+    # min memory, say in MB
     memory_min  = 50
 
-    # max memory, in MB
+    # max memory, say in MB
     memory_max  = 10000
 
     # number of memory samples to generate
     number_of_samples = 10
 
     # generate samples according to the beta distribution, grouping memory each
-    # 50 MB, ant time every 60s
+    # 50 MB
     name = "memory beta(%d,%d)" % (memory_min, memory_max)
-    fa_beta = FirstAllocation(name = name, value_resolution = 50, time_resolution = 1)
+    fa_beta = FirstAllocation(name = name, value_resolution = 50)
     while(fa_beta.count < number_of_samples):
         value = beta(memory_min, memory_max)
         fa_beta.add_data_point(value = value, time = wall_time)
 
     # generate samples according to the exponential distribution
     name = "memory exponential(%d,%d)" % (memory_min, memory_max)
-    fa_exp = FirstAllocation(name = name, value_resolution = 50, time_resolution = 1)
+    fa_exp = FirstAllocation(name = name, value_resolution = 50)
     while(fa_exp.count < number_of_samples):
         value = exponential(memory_min, memory_max)
         fa_exp.add_data_point(value = value, time = wall_time)
 
     # generate samples according to the exponential distribution
     name = "memory triangular(%d,%d)" % (memory_min, memory_max)
-    fa_tra = FirstAllocation(name = name, value_resolution = 50, time_resolution = 1)
+    fa_tra = FirstAllocation(name = name, value_resolution = 50)
     while(fa_tra.count < number_of_samples):
         value = triangular(memory_min, memory_max)
         fa_tra.add_data_point(value = value, time = wall_time)
@@ -63,6 +65,8 @@ if __name__ == '__main__':
         print "--- %s ---" % (fa.name,)
         print '%-15s: %5s %5s %5s %5s' % ('mode', 'alloc', 'throu', 'waste', 'retry')
 
+        # we will compare the throughput to that one that use the maximum value
+        # seen.
         throughput_base = fa.throughput(fa.maximum_seen)
 
         for mode in ['fixed', 'throughput', 'waste']:

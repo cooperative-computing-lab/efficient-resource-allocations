@@ -16,32 +16,39 @@ steps     = {'cores'  : 1,
 
 
 def read_input(filename):
-  # Create an empty set of categories
-  categories = {}
+    # Create an empty set of categories. A category is a set of tasks that
+    # qualitatively do the same thing (e.g., Analysis, Split, parameter-X, etc.)
+    # The value categories['category_name']['resource_name'] is a FirstAllocation object.
+    categories = {}
 
-  all_cs = get_category(categories, '(all)')
+    # Create the data set that will hold all data points of all categories,
+    # and resources
+    all_cs = get_category(categories, '(all)')
 
-  # Read resource report summaries as comma separated values, and add them to
-  # the set of categories.
-  with open(input_name) as cvsfile:
-    reader = csv.DictReader(cvsfile)
-    for row in reader:
+    # Read resource report summaries as comma separated values, and add them to
+    # the set of categories.
+    with open(input_name) as cvsfile:
+        reader = csv.DictReader(cvsfile)
+        for row in reader:
 
-        c = get_category(categories, row['category'])
+            # Create/retrieve the data sets for the row category name
+            c = get_category(categories, row['category'])
 
-        time  = float(row['wall_time'])
-        for r in resources:
-            value = float(row[r])
-            fa = c[r]
-            fa.add_data_point(value = value, time = time)
-            all_cs[r].add_data_point(value = value, time = time)
+            time  = float(row['wall_time'])
+            for r in resources:
+                value = float(row[r])
+                fa = c[r]
+                fa.add_data_point(value = value, time = time)
+                all_cs[r].add_data_point(value = value, time = time)
 
-  return categories
+    return categories
 
 
 def get_category(categories, category): 
     if not categories.has_key(category):
         categories[category] = {}
+
+        # create a data set per resource (e.g., cores, memory, disk) in the category
         for r in resources:
             categories[category][r] = FirstAllocation(name = r,
                     value_resolution = steps[r],
@@ -53,7 +60,11 @@ def get_category(categories, category):
 
 def report_allocations(fa):
     for mode in ['throughput', 'waste', 'fixed']:
+
+        # retrieve the first allocation computed
         allocation = fa.first_allocation(mode)
+
+        # compute diverse statistics
         maximum    = fa.maximum_seen
         count      = fa.count
         retries    = fa.retries(allocation)
