@@ -45,23 +45,13 @@ print first_allocation
 print maximum_seen
 ```
 
-## Installation
-
-Clone the repository, and add the resulting directory to your PYTHONPATH:
-
-```sh
-git clone https://github.com/cooperative-computing-lab/efficient-resource-allocations.git
-export PYTHONPATH=$(pwd)/efficient-resource-allocations:${PYTHONPATH}
-```
-
-Alternatively, you can copy the file
-`efficient-resource-allocations/FirstAllocation.py` to a location already in
-your `PYTHONPATH`.
 
 ## Running the examples
 
 ```sh
+git clone https://github.com/cooperative-computing-lab/efficient-resource-allocations.git
 cd efficient-resource-allocations
+
 # computing allocations from real workflow data:
 ./real_data_examples.py data/bioblast.csv
 ./real_data_examples.py data/lobsterCMSanalysis.csv
@@ -70,6 +60,21 @@ cd efficient-resource-allocations
 # simulation examples using beta, exponential, and triangular distributions:
 ./simulation_examples.py
 ```
+
+
+## Installation
+
+Clone the repository as above, and add the resulting directory to your `PYTHONPATH`:
+
+```sh
+cd efficient-resource-allocations
+export PYTHONPATH=$(pwd)/efficient-resource-allocations:${PYTHONPATH}
+```
+
+Alternatively, you can copy the file
+`efficient-resource-allocations/FirstAllocation.py` to a location already in
+your `PYTHONPATH`.
+
 
 ## License
 
