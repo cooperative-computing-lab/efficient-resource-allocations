@@ -29,7 +29,7 @@ from FirstAllocation import FirstAllocation
 fa = FirstAllocation(name = "my memory usage")
 
 # Add resource data points. A data point consists of the peak memory usage of a
-job, and the duration the job was executing:
+# job, and the duration the job was executing:
 
 fa.add_data_point(value = 100, time = 360)
 fa.add_data_point(value = 960, time = 360)
