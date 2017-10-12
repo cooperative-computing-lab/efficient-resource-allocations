@@ -17,95 +17,58 @@ failures.
 To solve this problem, we created the present library. Historical resource
 usage is analyzed, and a *first allocation* for a task is generated. Such the
 task use more resources than this first allocation, the task is re-run using a
-given maximum. [In the accompanying paper (under
-review)](http://ccl.cse.nd.edu/research/papers/tovar-allocations-2016.pdf), we
+given maximum. [In the accompanying paper (to appear in IEEE Transactions on Parallel and Distributed Systems)](http://ccl.cse.nd.edu/research/papers/Tovar-job-sizing-TPDS2017.pdf), we
 show that such retry strategy leads to an increase in throughput from 10% to
 400% across data we have available on different workflows.
 
 ## Code Example
 
 ```python
-from ResourceMonitor import Categories
+from FirstAllocation import FirstAllocation
 
-# Create an empty set of categories. A category is a set of tasks qualitatively
-# labeled by the user (e.g., 'analysis', or 'parameter-x'). In an ideal world,
-# tasks in a category would have the same resource consumption.
+fa = FirstAllocation(name = "my memory usage")
 
-cs = Categories()
+# Add resource data points. A data point consists of the peak memory usage of a
+job, and the duration the job was executing:
 
-# Add resource summary reports. Reports are dictionaries which keys such as
-# 'category', 'wall_time', 'cores', 'memory', and 'disk'. At least the keys
-# 'category' and 'wall_time' (time of execution) should be present.
-
-categories.accumulate_summary( { 'category': 'my_category',       'memory': 100, 'wall_time': 360} )
-categories.accumulate_summary( { 'category': 'my_category',       'memory': 960, 'wall_time':  30} )
-categories.accumulate_summary( { 'category': 'my_other_category', 'memory':  50, 'wall_time':  72} )
+fa.add_data_point(value = 100, time = 360)
+fa.add_data_point(value = 960, time = 360)
+fa.add_data_point(value =  50, time = 50)
 
 # Obtain the computed first allocations for maximum throughput, and the maximum
-# resources seen, per category:
-for name in categories.category_names():
-    first_allocation = categories.first_allocation(mode = 'throughput', category = name)
-    maximum_seen     = categories.maximum_seen(category = name)
+# resources seen:
 
-    print first_allocation['memory']
-    print maximum_seen['memory']
+first_allocation = fa.first_allocation(mode = 'throughput')
+maximum_seen     = fa.maximum_seen
+
+print first_allocation
+print maximum_seen
 ```
 
 ## Installation
 
-Currently, this repository only contains examples of the python bindings from
-our C implementation. The C implementation is part of our CCTools library
-suite.
-
-### Installation from binaries
-
-To install a binary version, download the appropriate binary for the latest
-official release of CCTools: [Download CCTools](http://ccl.cse.nd.edu/software/downloadfiles.php "CCTools")
-
-For example, for RHEL 7 on a x86-64:
+Clone the repository, and add the resulting directory to your PYTHONPATH:
 
 ```sh
-# change the following path to your taste:
-CCTOOLS_HOME=$HOME/cctools
-mkdir ${CCTOOLS_HOME}
-tar zxpv --strip-components 1 -C ${CCTOOLS_HOME} -f cctools-6.1.1-x86_64-redhat7.tar.gz
-export PYTHONPATH=${CCTOOLS_HOME}/lib/python2.7/site-packages:${PYTHONPATH}
-
-# for RHEL 6, use export PYTHONPATH=${CCTOOLS_HOME}/lib/python2.6/site-packages:${PYTHONPATH}
-
+git clone https://github.com/cooperative-computing-lab/efficient-resource-allocations.git
+export PYTHONPATH=$(pwd)/efficient-resource-allocations:${PYTHONPATH}
 ```
 
-### Installation from source
-
-Make sure you have swig and the development files for python installed. For
-example:
-
-```sh
-apt-get install build-essentials swig python2.7-dev
-```
-
-Download the source for the latest official release of CCTools:
-[Download CCTools](http://ccl.cse.nd.edu/software/downloadfiles.php "CCTools")
-
-```sh
-# change the following path to your taste:
-CCTOOLS_HOME=$HOME/cctools
-tar zxpvf cctools-X.X.X-source.tar.gz
-cd cctools-X.X.X-source.tar.gz
-./configure --prefix=${CCTOOLS_HOME}
-make install
-export PYTHONPATH=${CCTOOLS_HOME}/lib/python2.7/site-packages:${PYTHONPATH}
-```
+Alternatively, you can copy the file
+`efficient-resource-allocations/FirstAllocation.py` to a location already in
+your `PYTHONPATH`.
 
 ## Running the examples
 
 ```sh
-git clone https://github.com/cooperative-computing-lab/efficient-resource-allocations.git
 cd efficient-resource-allocations
 # computing allocations from real workflow data:
-./allocations_from_data data/bioblast.csv
-# synthetic examples using beta, exponential, and triangular distributions:
-./synthetic_examples
+./real_data_examples.py data/bioblast.csv
+./real_data_examples.py data/lobsterCMSanalysis.csv
+./real_data_examples.py data/lobsterCMSsimulation.csv
+
+# simulation examples using beta, exponential, and triangular distributions:
+./simulation_examples.py
 ```
 
 ## License
